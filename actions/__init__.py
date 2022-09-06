@@ -1,3 +1,3 @@
-from . import salesman
+from . import salesman, product
 
-__all__ = [salesman]
+__all__ = [salesman, product]
