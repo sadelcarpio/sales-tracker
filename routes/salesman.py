@@ -10,8 +10,8 @@ router = APIRouter()
 
 @router.post('', response_model=schemas.salesman.Salesman, status_code=201)
 def create_salesman(salesman: schemas.salesman.SalesmanCreate, db: Session = Depends(get_db)):
-    salesmen = actions.salesman.get_salesman(db, dni=salesman.dni)
-    if salesmen:
+    db_salesman = actions.salesman.get_salesman(db, dni=salesman.dni)
+    if db_salesman:
         raise HTTPException(status_code=400, detail='Vendedor ya registrado')
     return actions.salesman.create_salesman(db=db, salesman=salesman)
 
