@@ -1,10 +1,13 @@
-from pydantic import BaseModel
 import datetime
+
+from pydantic import BaseModel
 
 
 class SaleBase(BaseModel):
     date: datetime.date
     quantity: int
+    registered_lat: float
+    registered_long: float
 
 
 class SaleCreate(SaleBase):
