@@ -1,3 +1,2 @@
 .idea/
-tracker_api/http-client.env.json
-tracker_api/requests.http
+tracker_api/requests
