@@ -1,3 +1,5 @@
+import datetime
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -17,7 +19,7 @@ def create_sale(id_salesman: int, id_store: int, id_product: int,
 
 @router.get('', response_model=list[schemas.sale.Sale])
 def read_sales(id_salesman: int | None = None, id_store: int | None = None, id_product: int | None = None,
-               skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    sales = actions.sale.get_sales(db=db, id_salesman=id_salesman, id_store=id_store, id_product=id_product,
-                                   skip=skip, limit=limit)
-    return sales
+               date: datetime.date | None = None, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    db_sales = actions.sale.get_sales(db=db, id_salesman=id_salesman, id_store=id_store, id_product=id_product,
+                                      date=date, skip=skip, limit=limit)
+    return db_sales
