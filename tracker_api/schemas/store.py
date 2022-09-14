@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class StoreBase(BaseModel):
-    ruc_or_dni: int
+    ruc_or_dni: str
     name: str
     lat: float
     long: float

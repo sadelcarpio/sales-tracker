@@ -1,10 +1,9 @@
 from sqlalchemy.orm import Session
 
 import models
-import schemas
 
 
-def get_salesman_by_dni(db: Session, dni: int):
+def get_salesman_by_dni(db: Session, dni: str):
     return db.query(models.salesman.Salesman).filter(models.salesman.Salesman.dni == dni).first()
 
 
@@ -13,11 +12,3 @@ def get_salesmen(db: Session, namelike: str | None = None, skip: int = 0, limit:
     if namelike:
         query = query.filter(models.salesman.Salesman.name.like('%' + namelike + '%'))
     return query.offset(skip).limit(limit).all()
-
-
-def create_salesman(db: Session, salesman: schemas.salesman.SalesmanCreate):
-    db_salesman = models.salesman.Salesman(**salesman.dict())
-    db.add(db_salesman)
-    db.commit()
-    db.refresh(db_salesman)
-    return db_salesman

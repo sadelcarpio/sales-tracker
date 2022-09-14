@@ -1,14 +1,15 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 import actions
 import schemas
-from dependencies import get_db
+from dependencies import get_db, auth_required
 
 router = APIRouter()
 
 
 @router.post('', response_model=schemas.store.Store, status_code=201)
+@auth_required
 def create_store(store: schemas.store.StoreCreate, db: Session = Depends(get_db)):
     db_store = actions.store.get_store_by_ruc(db, ruc_or_dni=store.ruc_or_dni)
     if db_store:
@@ -17,13 +18,15 @@ def create_store(store: schemas.store.StoreCreate, db: Session = Depends(get_db)
 
 
 @router.get('', response_model=list[schemas.store.Store])
-def read_stores(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+@auth_required
+def read_stores(request: Request, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     db_stores = actions.store.get_stores(db, skip=skip, limit=limit)
     return db_stores
 
 
 @router.get('/{ruc_or_dni}', response_model=schemas.store.Store)
-def read_store(ruc_or_dni: int, db: Session = Depends(get_db)):
+@auth_required
+def read_store(request: Request, ruc_or_dni: str, db: Session = Depends(get_db)):
     db_store = actions.store.get_store_by_ruc(db, ruc_or_dni=ruc_or_dni)
     if db_store is None:
         raise HTTPException(status_code=404, detail='Tienda no encontrada')

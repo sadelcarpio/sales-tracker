@@ -6,10 +6,6 @@ class SalesmanBase(BaseModel):
     dni: int
 
 
-class SalesmanCreate(SalesmanBase):
-    pass
-
-
 class Salesman(SalesmanBase):
     id: int
 

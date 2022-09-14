@@ -4,7 +4,7 @@ import models
 import schemas
 
 
-def get_store_by_ruc(db: Session, ruc_or_dni: int):
+def get_store_by_ruc(db: Session, ruc_or_dni: str):
     return db.query(models.store.Store).filter(models.store.Store.ruc_or_dni == ruc_or_dni).first()
 
 
