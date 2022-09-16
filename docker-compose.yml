@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+
+  sales_tracker_postgres:
+    container_name: sales_tracker_postgres
+    image: docker.io/postgres:latest
+    restart: always
+    volumes:
+      - ./postgres/db:/var/lib/postgresql/data
+    privileged: true
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: "sadelcarpio1204"
+      POSTGRES_DB: "tracker_db"
+
+  sales_tracker_auth:
+    container_name: sales_tracker_auth
+    image: localhost/sales_tracker_auth
+    restart: always
+    build: ./tracker_auth
+    ports:
+      - "8001:8001"
+    environment:
+      PORT: 8001
+      DB_USER: "postgres"
+      DB_PASSWORD: "sadelcarpio1204"
+      SECRET_KEY: "b92b3a2ab03d5d3b7045adada607e44bc4f797c3abacd6c0031c46d36dfc3c9d"
+      COMPOSE: 1
+
+  sales_tracker_api:
+    container_name: sales_tracker_api
+    image: localhost/sales_tracker_api
+    restart: always
+    build: ./tracker_api
+    ports:
+      - "8000:8000"
+    environment:
+      PORT: 8000
+      DB_USER: "postgres"
+      DB_PASSWORD: "sadelcarpio1204"
+      COMPOSE: 1
+      AUTH_URL: http://sales_tracker_auth:8001/auth

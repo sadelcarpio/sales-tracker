@@ -1,3 +1,5 @@
 .idea/
 requests/
 venv/
+tracker_db
+postgres/

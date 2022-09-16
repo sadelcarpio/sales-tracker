@@ -1,6 +1,8 @@
+import os
 from datetime import timedelta
 
 import sqlalchemy.exc
+import uvicorn
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
@@ -39,3 +41,7 @@ async def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
 @app.get('/auth', response_model=schemas.User)
 async def read_users_me(user: schemas.User = Depends(get_current_user)):
     return user
+
+
+if __name__ == '__main__':
+    uvicorn.run(app, host='0.0.0.0', port=int(os.getenv('PORT', default=8001)))
