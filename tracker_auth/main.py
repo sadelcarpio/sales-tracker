@@ -36,6 +36,6 @@ async def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return db_user
 
 
-@app.get('/access', response_model=schemas.User)
+@app.get('/auth', response_model=schemas.User)
 async def read_users_me(user: schemas.User = Depends(get_current_user)):
     return user
