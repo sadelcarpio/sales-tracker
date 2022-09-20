@@ -1,5 +1,5 @@
 .idea/
-requests/
+reqs/
 venv/
 tracker_db
 postgres/

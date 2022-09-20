@@ -2,9 +2,9 @@
 import os
 from functools import wraps
 
+import requests
 from fastapi import HTTPException
 
-import requests
 from database import SessionLocal
 
 
@@ -31,4 +31,5 @@ def auth_required(func):
     def wrapper(request, *args, **kwargs):
         auth_call(request.headers.get('Authorization'))
         return func(request, *args, **kwargs)
+
     return wrapper
