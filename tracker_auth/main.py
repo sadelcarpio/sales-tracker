@@ -1,4 +1,3 @@
-import os
 from datetime import timedelta
 
 import sqlalchemy.exc
@@ -40,7 +39,3 @@ async def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
 @app.get('/auth', response_model=schemas.User)
 async def read_users_me(user: schemas.User = Depends(actions.get_current_user)):
     return user
-
-
-if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=int(os.getenv('PORT', default=8001)))

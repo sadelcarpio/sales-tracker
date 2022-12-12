@@ -20,6 +20,8 @@ services:
     image: localhost/sales_tracker_auth
     restart: always
     build: ./tracker_auth
+    volumes:
+      - ./tracker_auth:/app
     ports:
       - "8001:8001"
     environment:
@@ -28,12 +30,16 @@ services:
       DB_PASSWORD: "sadelcarpio1204"
       SECRET_KEY: "b92b3a2ab03d5d3b7045adada607e44bc4f797c3abacd6c0031c46d36dfc3c9d"
       COMPOSE: 1
+    depends_on:
+      - sales_tracker_postgres
 
   sales_tracker_api:
     container_name: sales_tracker_api
     image: localhost/sales_tracker_api
     restart: always
     build: ./tracker_api
+    volumes:
+      - ./tracker_api:/app
     ports:
       - "8000:8000"
     environment:
@@ -42,3 +48,5 @@ services:
       DB_PASSWORD: "sadelcarpio1204"
       COMPOSE: 1
       AUTH_URL: http://sales_tracker_auth:8001/auth
+    depends_on:
+      - sales_tracker_postgres

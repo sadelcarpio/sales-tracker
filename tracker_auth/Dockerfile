@@ -11,5 +11,4 @@ RUN apt-get update && apt-get install -y \
 RUN python -m pip install --upgrade pip
 RUN pip3 install -r requirements.txt
 
-ENTRYPOINT ["python3"]
-CMD ["main.py"]
+CMD ["sh", "-c", "uvicorn main:app --port=${PORT} --host=0.0.0.0 --reload"]
