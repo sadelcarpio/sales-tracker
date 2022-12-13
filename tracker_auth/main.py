@@ -15,7 +15,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 app = FastAPI()
 
 
-@app.post('/token', response_model=schemas.Token)
+@app.post('/token', response_model=schemas.Token, tags=["Issue Token"])
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), db=Depends(get_db)):
     user = actions.authenticate_user(db, form_data.username, form_data.password)
     if not user:
@@ -27,7 +27,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db=Depends(get
     return {'access_token': access_token, 'token_type': 'bearer'}
 
 
-@app.post('/register', response_model=schemas.User, status_code=201)
+@app.post('/register', response_model=schemas.User, status_code=201, tags=["Register a User"])
 async def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     try:
         db_user = actions.create_user(db=db, user=user)
@@ -36,6 +36,6 @@ async def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return db_user
 
 
-@app.get('/auth', response_model=schemas.User)
+@app.get('/auth', response_model=schemas.User, tags=["Return current user"])
 async def read_users_me(user: schemas.User = Depends(actions.get_current_user)):
     return user

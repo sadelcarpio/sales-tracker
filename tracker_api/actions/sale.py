@@ -6,15 +6,15 @@ import models
 import schemas
 
 
-def get_sales(db: Session, id_salesman: int | None = None, id_store: int | None = None, id_product: int | None = None,
+def get_sales(db: Session, salesman_id: int | None = None, store_id: int | None = None, product_id: int | None = None,
               date: datetime.date | None = None, skip: int = 0, limit: int = 10):
     query = db.query(models.sale.Sale)
-    if id_salesman:
-        query = query.filter(models.sale.Sale.id_salesman == id_salesman)
-    if id_store:
-        query = query.filter(models.sale.Sale.id_store == id_store)
-    if id_product:
-        query = query.filter(models.sale.Sale.id_product == id_product)
+    if salesman_id:
+        query = query.filter(models.sale.Sale.id_salesman == salesman_id)
+    if store_id:
+        query = query.filter(models.sale.Sale.id_store == store_id)
+    if product_id:
+        query = query.filter(models.sale.Sale.id_product == product_id)
     if date:
         query = query.filter(models.sale.Sale.date == date)
     return query.offset(skip).limit(limit).all()

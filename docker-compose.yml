@@ -19,7 +19,10 @@ services:
     container_name: sales_tracker_auth
     image: localhost/sales_tracker_auth
     restart: always
-    build: ./tracker_auth
+    build:
+      context: ./tracker_auth
+      args:
+        - DEV=true
     volumes:
       - ./tracker_auth:/app
     ports:
@@ -37,7 +40,10 @@ services:
     container_name: sales_tracker_api
     image: localhost/sales_tracker_api
     restart: always
-    build: ./tracker_api
+    build:
+      context: ./tracker_api
+      args:
+        - DEV=true
     volumes:
       - ./tracker_api:/app
     ports:
